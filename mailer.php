@@ -1,7 +1,5 @@
 <?php
-
-if(isset($_POST['email'])){
-
+if(isset($_POST['button'])){
 
 $name = $_POST['fname'];
 $email = $_POST['email-2'];
@@ -12,6 +10,7 @@ require 'phpmailer/Exception.php';
 require 'phpmailer/PHPMailer.php';
 require 'phpmailer/SMTP.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
 
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try {
@@ -33,17 +32,15 @@ try {
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = $Asunto;
     $mail->Body    = $mensaje;
-
-
     $mail->send();
     echo 'El mensaje se envio de manera exitosa';
 } catch (Exception $e) {
     echo 'No se pudo enviar el correo: ', $mail->ErrorInfo;
-}}
-
-else
-{
-	echo "mensaje no enviado";
 }
+}
+ else
+ {
+	echo "mensaje no enviado";
+ }
 
 ?>
