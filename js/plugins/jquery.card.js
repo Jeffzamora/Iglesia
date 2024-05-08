@@ -3,7 +3,25 @@ var card =
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
-/******/ 	// The require function
+          /**
+           * @description Checks if a given module is already installed, creates it if not, and
+           * exports its defined exports.
+           * 
+           * @param { string } moduleId - identifier for the module being loaded and is used
+           * to retrieve the appropriate module definition from the cache or execute the module
+           * function if it's not already loaded.
+           * 
+           * @returns { export` value } the exported value of a module identified by `moduleId`.
+           * 
+           * 		- `moduleId`: The ID of the requested module.
+           * 		- `installedModules`: A cache of installed modules, where each entry contains
+           * the ID of the module and a reference to its exports.
+           * 		- `modules`: An object that maps module IDs to functions that execute the module
+           * code. Each function takes three arguments: the module, its exports, and the result
+           * of `__webpack_require__`.
+           * 		- `loaded`: A boolean flag indicating whether the module has been loaded successfully.
+           * 		- `exports`: The exports of the requested module.
+           */
 /******/ 	function __webpack_require__(moduleId) {
 
 /******/ 		// Check if module is in cache
@@ -153,6 +171,18 @@ var card =
 	    debug: false
 	  };
 
+			/**
+			 * @description Creates a new instance of the Card component, initializing its
+			 * properties and renderings based on passed options, and attaches event handlers to
+			 * enable functionality.
+			 * 
+			 * @param { object } opts - optional configuration object that can be used to customize
+			 * the behavior of the `Card` function by providing default values for various
+			 * properties, such as form, container, and data attributes.
+			 * 
+			 * @returns { any } a rendered card component with attached event handlers and initial
+			 * placeholders set to true.
+			 */
 	  function Card(opts) {
 	    this.maskCardNumber = bind(this.maskCardNumber, this);
 	    var toInitialize;
@@ -602,6 +632,17 @@ var card =
 		};
 	}
 
+	/**
+	 * @description Iterates through an array of style items and applies them to the DOM
+	 * by incrementing refs for each item, creating new styles if needed, and applying
+	 * parts to the existing styles.
+	 * 
+	 * @param { array } styles - an array of style definitions, which are then applied
+	 * to the DOM using the function.
+	 * 
+	 * @param { object } options - options object that specifies whether the styles should
+	 * be added to the dom or not.
+	 */
 	function addStylesToDom(styles, options) {
 		for(var i = 0; i < styles.length; i++) {
 			var item = styles[i];
@@ -624,6 +665,19 @@ var card =
 		}
 	}
 
+	/**
+	 * @description Converts an array of objects to a list of CSS styles. Each object in
+	 * the input array represents a single style, with properties for id, CSS code, media,
+	 * and source map. The function returns an array of CSS styles, where each style is
+	 * represented as an object with `id`, `parts`, and `sourceMap` properties.
+	 * 
+	 * @param { array } list - 4-element array containing the list of objects that define
+	 * CSS styles, where each object consists of an id, a CSS string, a media string, and
+	 * an optional source map.
+	 * 
+	 * @returns { object } an array of styles objects, each representing a single CSS
+	 * style definition.
+	 */
 	function listToStyles(list) {
 		var styles = [];
 		var newStyles = {};
@@ -642,6 +696,17 @@ var card =
 		return styles;
 	}
 
+	/**
+	 * @description Modifies the HTML document by adding a new `style` element at a
+	 * specified position in the document, taking into account the current state of the
+	 * `styleElementsInsertedAtTop` array.
+	 * 
+	 * @param { object } options - insertion location of the new `styleElement`, allowing
+	 * for either "top" or "bottom" placement.
+	 * 
+	 * @param { object } styleElement - CSS style element to be inserted into the `<head>`
+	 * element of a web page using the `insertStyleElement()` function.
+	 */
 	function insertStyleElement(options, styleElement) {
 		var head = getHeadElement();
 		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
@@ -661,6 +726,19 @@ var card =
 		}
 	}
 
+	/**
+	 * @description Removes a style element from its parent node and from an array of
+	 * inserted elements.
+	 * 
+	 * @param { HTML Element (style tag). } styleElement - element to be removed from the
+	 * HTML document.
+	 * 
+	 * 		- `parentNode`: The parent node of `styleElement`, which is an HTML Element.
+	 * 		- `removeChild()`: The method called to remove `styleElement` from its parent node.
+	 * 		- `idx`: The index of `styleElement` in the array `styleElementsInsertedAtTop`.
+	 * 		- `styleElementsInsertedAtTop`: An array of style elements that are inserted at
+	 * the top of the page.
+	 */
 	function removeStyleElement(styleElement) {
 		styleElement.parentNode.removeChild(styleElement);
 		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
@@ -669,6 +747,24 @@ var card =
 		}
 	}
 
+	/**
+	 * @description Creates a new `<style>` element and inserts it into the Document
+	 * Object Model (DOM).
+	 * 
+	 * @param { object } options - settings for the new style element, such as its CSS
+	 * text content, which are applied to the element upon insertion.
+	 * 
+	 * @returns { HTMLStyleElement } a `style` element added to the Document Object Model
+	 * (DOM) with the specified styles.
+	 * 
+	 * 	1/ `styleElement`: The created style element is stored in this variable, which
+	 * has the type `style` and is a new instance of the HTML Element Object.
+	 * 	2/ `type`: This property is set to `"text/css"`, indicating that the element is
+	 * a CSS stylesheet.
+	 * 	3/ `insertStyleElement`: This function is called with the given options and the
+	 * style element as parameters, which inserts the element into the Document Object
+	 * Model (DOM) of the web page.
+	 */
 	function createStyleElement(options) {
 		var styleElement = document.createElement("style");
 		styleElement.type = "text/css";
@@ -676,6 +772,24 @@ var card =
 		return styleElement;
 	}
 
+	/**
+	 * @description Creates a new `link` element and sets its `rel` attribute to
+	 * `"stylesheet"`. It then inserts the element into the page using the provided options
+	 * and returns the linked element.
+	 * 
+	 * @param { object } options - configuration for the new `<link>` element to be
+	 * created, and is used to set its `rel` attribute to "stylesheet".
+	 * 
+	 * @returns { HTMLLinkElement } a new `<link>` element added to the page.
+	 * 
+	 * 		- `var linkElement = document.createElement("link");`: The output is a `link`
+	 * element created in the HTML format.
+	 * 		- `linkElement.rel = "stylesheet";`: This attribute specifies the type of resource
+	 * linked by the element, in this case, a stylesheet.
+	 * 		- `insertStyleElement(options, linkElement);`: The function inserts the `linkElement`
+	 * into the page's document.
+	 * 		- Return value: The `linkElement` object.
+	 */
 	function createLinkElement(options) {
 		var linkElement = document.createElement("link");
 		linkElement.rel = "stylesheet";
@@ -683,6 +797,28 @@ var card =
 		return linkElement;
 	}
 
+	/**
+	 * @description Modifies CSS styles on a DOM element based on a provided options
+	 * object. It creates a style element or links if necessary, updates the style and
+	 * removes it upon new input.
+	 * 
+	 * @param { object } obj - CSS style object that contains the styles to be applied
+	 * to an HTML element, and is used as an argument for the update and remove functions.
+	 * 
+	 * @param { object } options - configuration object for the style element, including
+	 * options for singleton elements, media queries, and source maps.
+	 * 
+	 * @returns { arrow function } a function that updates an HTML style element with new
+	 * CSS styles.
+	 * 
+	 * 		- `update`: a function that takes an object as an argument and updates the style
+	 * element with the new values from the object.
+	 * 		- `remove`: a function that removes the style element.
+	 * 		- `obj`: the original object passed to the `addStyle` function, which contains
+	 * the CSS properties and media string.
+	 * 		- `options`: the object containing the options for creating the style element,
+	 * such as whether to create a singleton style element or not.
+	 */
 	function addStyle(obj, options) {
 		var styleElement, update, remove;
 
@@ -734,6 +870,31 @@ var card =
 		};
 	})();
 
+	/**
+	 * @description Modifies the styles of a singular tag (i.e., not a collection of tags)
+	 * by adding or removing CSS text based on an index and a boolean value for remove.
+	 * 
+	 * @param { HTML Element. } styleElement - element that the function applies CSS
+	 * styles to.
+	 * 
+	 * 		- `styleSheet`: A boolean indicating whether the element has a style sheet.
+	 * 		- `css`: A string representing the CSS content to be applied to the element.
+	 * 
+	 * @param { integer } index - 0-based index of the style element in the parent node's
+	 * child nodes, which is used to locate the element in the DOM hierarchy and apply
+	 * or remove the styles based on the `remove` input parameter.
+	 * 
+	 * @param { boolean } remove - element to be removed from the styleElement.
+	 * 
+	 * @param { `CSSStyleDeclaration`. } obj - element's style information, which is used
+	 * to create or update the element's CSS text content.
+	 * 
+	 * 		- `styleElement`: The HTML `style` element to which the styles will be applied.
+	 * 		- `index`: The index of the style rule within the `obj.css` property.
+	 * 		- `remove`: A boolean indicating whether the style rule should be removed or not.
+	 * 		- `obj`: An object containing CSS styles in string form, with various properties
+	 * and attributes, such as `css`, which is the content of the style rule in question.
+	 */
 	function applyToSingletonTag(styleElement, index, remove, obj) {
 		var css = remove ? "" : obj.css;
 
@@ -751,6 +912,26 @@ var card =
 		}
 	}
 
+	/**
+	 * @description Applies styles defined in an object `obj` to an HTML `style` element.
+	 * It sets the `media` attribute and adds a new text node containing the styles' CSS
+	 * text if the `style` element does not have a `styleSheet`.
+	 * 
+	 * @param { HTMLElement. } styleElement - HTML element to which the styles will be applied.
+	 * 
+	 * 		- `styleElement`: This is an HTML element of type "style", which represents a
+	 * stylesheet in the document.
+	 * 		- `css`: A string property that contains the stylesheet's CSS text content.
+	 * 		- `media`: An optional property that specifies the media types for which the
+	 * stylesheet should be applied, separated by commas. If this property is present,
+	 * it adds an "media" attribute to the `styleElement` element with the specified values.
+	 * 
+	 * 	The function operates on the `styleElement` element, adding or modifying its CSS
+	 * content based on the input `obj`.
+	 * 
+	 * @param { object } obj - CSS styles to be applied to an HTML tag, providing both
+	 * the CSS text and any media query conditions to be used for styling the element.
+	 */
 	function applyToTag(styleElement, obj) {
 		var css = obj.css;
 		var media = obj.media;
@@ -769,6 +950,21 @@ var card =
 		}
 	}
 
+	/**
+	 * @description Modifies a HTML link element's URL by creating a new Blob object
+	 * containing updated CSS styles and storing it as a URL object, while also revoking
+	 * any previous URLs for the link.
+	 * 
+	 * @param { `HTMLLinkElement`. } linkElement - HTML element containing the CSS styles
+	 * to be updated.
+	 * 
+	 * 		- `linkElement`: The element to be updated with the new link URL.
+	 * 		- `obj`: An object containing the `css` property and (optionally) the `sourceMap`
+	 * property.
+	 * 
+	 * @param { object } obj - object that contains the `css` property and the `sourceMap`
+	 * property, which provides the source mapping information for the CSS styles.
+	 */
 	function updateLink(linkElement, obj) {
 		var css = obj.css;
 		var sourceMap = obj.sourceMap;
